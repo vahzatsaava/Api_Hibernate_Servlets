@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="ServletsApi_Hibernate:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/ServletsApi_Hibernate_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="ServletsApi_Hibernate/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="ServletsApi_Hibernate" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
