@@ -22,7 +22,7 @@ public class HibernateFileRepositoryImpl implements FileRepository {
         try (Session session = HibernateUtils.getSession()){
             session.getTransaction().begin();
             session.merge(file);
-            session.beginTransaction().commit();
+            session.getTransaction().commit();
             return file;
         }
     }

@@ -1,7 +1,6 @@
 package compani.service;
 
 import compani.model.File;
-import compani.model.User;
 import compani.repository.FileRepository;
 import compani.repository.hibernate.HibernateFileRepositoryImpl;
 
@@ -13,6 +12,11 @@ public class FileService {
     public FileService() {
         this.fileRepository = new HibernateFileRepositoryImpl();
     }
+
+    public FileService(FileRepository fileRepository) {
+        this.fileRepository = fileRepository;
+    }
+
     public File add(File file){
         return fileRepository.save(file);
     }

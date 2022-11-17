@@ -13,13 +13,19 @@ public class UserService {
         this.userRepository = new HibernateUserRepositoryImp();
     }
 
-    public User add(User user){
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User add(User user) {
         return userRepository.save(user);
     }
-    public User update(User user){
+
+    public User update(User user) {
         return userRepository.update(user);
     }
-    public User find(int id){
+
+    public User find(int id) {
         return userRepository.findById(id);
     }
     public List<User> getUsers(){

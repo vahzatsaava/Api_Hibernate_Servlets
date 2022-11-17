@@ -15,7 +15,7 @@ public class AppRunner {
         HibernateFileRepositoryImpl hibernateFileRepository = new HibernateFileRepositoryImpl();
         HibernateEventRepository hibernateEventRepository = new HibernateEventRepository();
         //hibernateEventRepository.update(new Event(1,new Date(200),new File("charly","hhht"),new User("tomas","munz")));
-       hibernateEventRepository.deleteById(1);
-        System.out.println(hibernateEventRepository.getAll());
+        hibernateEventRepository.save(new Event(new Date(System.currentTimeMillis()),new File("garry","charly"),new User("gggg","fdgdf")));
+
     }
 }

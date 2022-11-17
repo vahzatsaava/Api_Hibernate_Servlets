@@ -11,10 +11,15 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <org.flywaydb>9.4.0</org.flywaydb>
         <mysql>8.0.30</mysql>
         <org.hibernate>5.6.1.Final</org.hibernate>
+        <org.flywaydb>9.4.0</org.flywaydb>
         <flyway-mysql>8.2.1</flyway-mysql>
+        <javax.servlet>4.0.1</javax.servlet>
+        <org.mockito>2.23.4</org.mockito>
+        <junit>4.13.2</junit>
+        <org.junit.jupiter>5.9.0</org.junit.jupiter>
+
     </properties>
 <dependencies>
 
@@ -38,6 +43,33 @@
         <groupId>org.flywaydb</groupId>
         <artifactId>flyway-core</artifactId>
         <version>${org.flywaydb}</version>
+    </dependency>
+    <!-- servlets dependency-->
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>${javax.servlet}</version>
+    </dependency>
+    <!-- Mockito - Junit -->
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${org.mockito}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>${org.junit.jupiter}</version>
+        <scope>test</scope>
     </dependency>
 
 </dependencies>

@@ -1,15 +1,17 @@
 package compani.service;
 
 import compani.model.Event;
-import compani.model.File;
 import compani.repository.EventRepository;
 import compani.repository.hibernate.HibernateEventRepository;
-import compani.repository.hibernate.HibernateFileRepositoryImpl;
 
 import java.util.List;
 
 public class EventService {
     private final EventRepository eventRepository;
+
+    public EventService(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     public EventService() {
         this.eventRepository = new HibernateEventRepository();
