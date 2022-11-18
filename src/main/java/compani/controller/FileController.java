@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet("/File")
+@WebServlet("/Files")
 public class FileController extends HttpServlet {
     private FileService fileService;
 
@@ -23,11 +23,26 @@ public class FileController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PrintWriter writer = resp.getWriter();
-        resp.setContentType("text/html");
-        for (File file : fileService.getFiles()) {
-            writer.println("<p>" + "id :" + file.getId() + " " + file.getFileName() + ":" + file.getLocation() + "</p>");
+        String id = req.getParameter("id");
+        if (id == null) {
+            getAll(req, resp);
+        }else {
+            getByID(Integer.parseInt(id),req,resp);
         }
+    }
+
+    private void getAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PrintWriter writer = resp.getWriter();
+        for (File file : fileService.getFiles()) {
+            resp.setContentType("application/json");
+            writer.println(file);
+        }
+    }
+
+    private void getByID(int id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PrintWriter writer = resp.getWriter();
+        resp.setContentType("application/json");
+        writer.println(fileService.find(id));
     }
 
     @Override
