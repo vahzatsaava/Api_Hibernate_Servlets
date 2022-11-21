@@ -31,7 +31,7 @@ public class HibernateUserRepositoryImp implements UserRepository {
     @Override
     public User findById(int id) {
         try (Session session = HibernateUtils.getSession()) {
-            return session.get(User.class, id);
+            return session.get(User.class,id);
         }
     }
 

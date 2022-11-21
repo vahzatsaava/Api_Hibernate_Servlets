@@ -1,9 +1,12 @@
 package compani.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "files", schema = "webapi")
+@JsonIgnoreProperties("event")
 public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

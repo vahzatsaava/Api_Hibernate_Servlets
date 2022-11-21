@@ -1,9 +1,14 @@
 package compani.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "webapi")
+@JsonIgnoreProperties("events")
 public class User {
     @Id
     @Column(name = "id")
@@ -69,7 +74,6 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+                ", lastName='" + lastName + '\'' + '}';
     }
 }

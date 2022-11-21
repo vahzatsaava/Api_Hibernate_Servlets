@@ -11,14 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.stream.Collectors;
+
 @WebServlet("/Users")
-public class UserController extends HttpServlet {
+public class UserRestController extends HttpServlet {
     private UserService service;
-    private Gson gson = new Gson();
+    private ObjectMapper mapper;
 
     @Override
     public void init() throws ServletException {
         service = new UserService();
+        mapper = new ObjectMapper();
     }
 
     @Override
@@ -34,17 +37,13 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
-        String firstName = req.getParameter("first_name");
-        String lastName = req.getParameter("last_name");
-        if (firstName != null && lastName != null && !firstName.isEmpty() && !lastName.isEmpty()) {
-            service.add(new User(firstName, lastName));
-        } else {
-            writer.println("Please, enter your name and surname !");
+        String json = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        User user = new Gson().fromJson(json, User.class);
+        if (user != null) {
+            service.add(user);
         }
     }
-
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,42 +52,31 @@ public class UserController extends HttpServlet {
         resp.setContentType("application/json");
         service.delete(id);
         writer.println("the object was deleted");
+        writer.close();
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        String firstName = req.getParameter("first_name");
-        String lastName = req.getParameter("last_name");
         resp.setContentType("application/json");
-        service.update(new User(id, firstName, lastName));
+        String json = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        User user = new Gson().fromJson(json, User.class);
+        service.update(user);
     }
 
     private void getAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User employee = new User( "Karan", "IT");
-        String employeeJsonString = gson.toJson(employee);
-
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        out.print(employeeJsonString);
-        out.flush();
-        /*
-        PrintWriter writer = resp.getWriter();
-        resp.setContentType("application/json");
         for (User user : service.getUsers()) {
-            writer.println(user);
+            out.println(mapper.writeValueAsString(user));
         }
-        writer.close();
+        out.close();
 
-         */
     }
 
     private void getById(Integer id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String json = mapper.writeValueAsString(service.find(id));
         PrintWriter writer = resp.getWriter();
-        User user = service.find(id);
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
+        resp.setContentType("application/json");
         writer.println(json);
         writer.close();
     }
