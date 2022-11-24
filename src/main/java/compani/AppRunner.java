@@ -11,6 +11,7 @@ import compani.model.User;
 import compani.repository.hibernate.HibernateEventRepository;
 import compani.repository.hibernate.HibernateFileRepositoryImpl;
 import compani.repository.hibernate.HibernateUserRepositoryImp;
+import compani.service.EventService;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -23,11 +24,14 @@ public class AppRunner {
         HibernateUserRepositoryImp hibernateUserRepositoryImp = new HibernateUserRepositoryImp();
         HibernateFileRepositoryImpl hibernateFileRepository = new HibernateFileRepositoryImpl();
         HibernateEventRepository hibernateEventRepository = new HibernateEventRepository();
+        EventService service = new EventService();
         //hibernateEventRepository.update(new Event(1,new Date(200),new File("charly","hhht"),new User("tomas","munz")));
         //hibernateEventRepository.save(new Event(new Date(System.currentTimeMillis()),new File("garry","charly"),new User("gggg","fdgdf")));
         System.out.println(hibernateUserRepositoryImp.findById(2));
         Date date = new Date(System.currentTimeMillis());
         System.out.println(date);
+        Event s = service.getEvents().stream().filter(i -> i.getUser().getId() == 24).findFirst().orElse(null);
+        System.out.println(s);
 
     }
 }

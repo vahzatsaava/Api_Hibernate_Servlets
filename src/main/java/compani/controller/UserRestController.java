@@ -1,7 +1,9 @@
 package compani.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import compani.model.Event;
 import compani.model.User;
+import compani.service.EventService;
 import compani.service.UserService;
 
 import javax.servlet.ServletException;
@@ -15,13 +17,15 @@ import java.util.stream.Collectors;
 
 @WebServlet("/Users")
 public class UserRestController extends HttpServlet {
-    private UserService service;
+    private UserService userService;
     private ObjectMapper mapper;
+    private EventService eventService;
 
     @Override
     public void init() throws ServletException {
-        service = new UserService();
+        userService = new UserService();
         mapper = new ObjectMapper();
+        eventService = new EventService();
     }
 
     @Override
@@ -41,7 +45,7 @@ public class UserRestController extends HttpServlet {
         String json = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         User user = new Gson().fromJson(json, User.class);
         if (user != null) {
-            service.add(user);
+            userService.add(user);
         }
     }
 
@@ -50,7 +54,7 @@ public class UserRestController extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         int id = Integer.parseInt(req.getParameter("id_del"));
         resp.setContentType("application/json");
-        service.delete(id);
+        userService.delete(id);
         writer.println("the object was deleted");
         writer.close();
     }
@@ -60,13 +64,13 @@ public class UserRestController extends HttpServlet {
         resp.setContentType("application/json");
         String json = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         User user = new Gson().fromJson(json, User.class);
-        service.update(user);
+        userService.update(user);
     }
 
     private void getAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
-        for (User user : service.getUsers()) {
+        for (User user : userService.getUsers()) {
             out.println(mapper.writeValueAsString(user));
         }
         out.close();
@@ -74,10 +78,13 @@ public class UserRestController extends HttpServlet {
     }
 
     private void getById(Integer id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String json = mapper.writeValueAsString(service.find(id));
+        Event event = eventService.getEvents().stream().filter(i -> i.getUser().getId() == id).findFirst().orElse(null);
+        String userJson = mapper.writeValueAsString(userService.find(id));
+        String eventJson = mapper.writeValueAsString(event);
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
-        writer.println(json);
+        writer.println(userJson + eventJson);
         writer.close();
     }
+
 }

@@ -1,5 +1,6 @@
 package compani.repository.hibernate;
 
+import compani.model.Event;
 import compani.model.User;
 import compani.repository.UserRepository;
 import compani.utils.HibernateUtils;
@@ -51,6 +52,13 @@ public class HibernateUserRepositoryImp implements UserRepository {
             query.setParameter("id", id);
             query.executeUpdate();
             transaction.commit();
+        }
+    }
+    private List<Event> events(int id){
+        try (Session session = HibernateUtils.getSession()){
+            Query query = session.createQuery("from Event as U left join fetch U.file left join fetch U.user where U.user.id = :id");
+            query.setParameter("id",id);
+            return query.getResultList();
         }
     }
 }
