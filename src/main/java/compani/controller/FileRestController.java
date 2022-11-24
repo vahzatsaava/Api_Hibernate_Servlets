@@ -5,12 +5,14 @@ import com.google.gson.Gson;
 import compani.model.File;
 import compani.service.FileService;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.stream.Collectors;
 
@@ -72,6 +74,5 @@ public class FileRestController extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
         writer.println(mapper.writeValueAsString(fileService.find(id)));
-        writer.close();
     }
 }
